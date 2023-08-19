@@ -7,6 +7,12 @@ body{
 
 }
 
+.profile-bg{
+flex-shrink: 0;
+border-radius: 8.889px;
+border: 0.889px solid #FFF;
+background: #1E2875;
+}
 .banner-bg{
   background: linear-gradient(to bottom, #FFFFFF 30%, #05467E 30%);
 }
