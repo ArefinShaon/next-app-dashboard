@@ -24,7 +24,7 @@ export const GET = async (request) => {
 };
 
 
-export default async function handler(req, res) {
+export  async function handler(req, res) {
   if (req.method !== 'PUT') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
