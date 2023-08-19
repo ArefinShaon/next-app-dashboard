@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import banner from '/public/home.jpg';
+import banner from '../../public/home.jpg';
 
 export default function Home() {
   return (

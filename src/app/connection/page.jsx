@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-const Connection = () => {
+const page = () => {
   const initialUsers = [
     {
       id: 1,
-      name: "Arefin Shaon",
+      name: "Arefin Shawn",
       about: "Passionate developer",
       photo:
         "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
@@ -163,13 +164,13 @@ const Connection = () => {
                     Add Connection
                   </p>
                 </div>
-                <Image
+                {user.photo && <Image
                   src={user.photo}
                   width={200}
                   height={200}
                   alt="Images"
                   className="w-12 md:w-20 h-12 md:h-20 rounded-full"
-                />
+                />}
               </li>
             ))}
           </div>
@@ -179,4 +180,4 @@ const Connection = () => {
   );
 };
 
-export default Connection;
+export default page;

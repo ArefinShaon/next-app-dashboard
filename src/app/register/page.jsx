@@ -1,100 +1,104 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 import { AuthContext } from "@/provider/AuthProvider/AuthProvider";
 
-
-const RegistrationPage = () => {
-  const [error, setError] = useState(null);
+const page = () => {
   const router = useRouter();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password:"",
-    profilePicture: "",
-    phoneNumber: "",
-    about: "",
-    skills: [],
-    professionalDetails: "",
-    certifications: [],
-    experience: "",
-    education: "",
-  });
+  // const [userData, setUserData] = useState({
+  //   name: "",
+  //   email: "",
+  //   password:"",
+  //   profilePicture: "",
+  //   phoneNumber: "",
+  //   about: "",
+  //   skills: [],
+  //   professionalDetails: "",
+  //   certifications: [],
+  //   experience: "",
+  //   education: "",
+  // });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setUserData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleArrayChange = (event, field) => {
-    const { value } = event.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [field]: value.split(",").map((item) => item.trim()),
-    }));
-  };
+  // const handleArrayChange = (event, field) => {
+  //   const { value } = event.target;
+  //   setUserData((prevData) => ({
+  //     ...prevData,
+  //     [field]: value.split(",").map((item) => item.trim()),
+  //   }));
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const form = event.target;
-    const name = form.name.value;
-    const profilePicture = form.profilePicture.value;
-    const email = form.email.value;
-    const phoneNumber = form.phoneNumber.value;
-    const about = form.about.value;
-    const skills = form.skills.value;
-    const professionalDetails = form.professionalDetails.value;
-    const certifications = form.certifications.value;
-    const experience = form.experience.value;
-    const education = form.education.value;
-    const password = form.password.value;
-  
+    // const form = event.target;
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    const name = data.name;
+    const profilePicture = data.profilePicture;
+    const email = data.email;
+    const phoneNumber = data.phoneNumber;
+    const about = data.about;
+    const skills = data.skills;
+    const professionalDetails = data.professionalDetails;
+    const certifications = data.certifications;
+    const experience = data.experience;
+    const education = data.education;
+    const password = data.password;
+
+    const addUser = {
+      name,
+      email,
+      profilePicture,
+      phoneNumber,
+      about,
+      skills,
+      professionalDetails,
+      certifications,
+      experience,
+      education,
+      password,
+    };
+
     try {
       // Create user using createUser function
       const createUserResult = await createUser(email, password);
       const createdUser = createUserResult.user;
       console.log(createdUser);
-  
+
       // Update user profile using updateUserProfile function
-      await updateUserProfile({
-        displayName: name,
-        photoURL: profilePicture,
-      });
-  
-      const res = await fetch("/api/auth/register", {
+      // await updateUserProfile({
+      //   displayName: name,
+      //   photoURL: profilePicture,
+      // });
+
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          email,
-          profilePicture,
-          phoneNumber,
-          about,
-          skills,
-          professionalDetails,
-          certifications,
-          experience,
-          education,
-          password,
-        }),
+        body: JSON.stringify(addUser),
       });
-  
+
       if (res.status === 201) {
         swal.fire({
           icon: "success",
           title: "Good job!",
           text: "Successfully create an account",
         });
-  
+
         form.reset();
         router.push("/login");
       }
@@ -103,7 +107,6 @@ const RegistrationPage = () => {
       console.log(err);
     }
   };
-  
 
   return (
     <div className="min-h-screen pt-0 md:pt-8 bg-blue-300 flex items-center justify-center">
@@ -113,141 +116,152 @@ const RegistrationPage = () => {
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Name</label>
+            <label htmlFor="name" className="block text-sm font-medium">
+              Name
+            </label>
             <input
               type="text"
               name="name"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.name}
-              onChange={handleChange}
+              id="name"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email
+            </label>
             <input
               type="email"
               name="email"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.email}
-              onChange={handleChange}
+              id="email"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
             <input
               type="password"
               name="password"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.password}
-              onChange={handleChange}
+              id="password"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">
+            <label
+              htmlFor="profilePicture"
+              className="block text-sm font-medium"
+            >
               Profile Picture URL
             </label>
             <input
               type="text"
               name="profilePicture"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.profilePicture}
-              onChange={handleChange}
+              id="profilePicture"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Phone Number</label>
+            <label htmlFor="phoneNumber" className="block text-sm font-medium">
+              Phone Number
+            </label>
             <input
               type="text"
               name="phoneNumber"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.phoneNumber}
-              onChange={handleChange}
+              id="phoneNumber"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">About</label>
+            <label htmlFor="about" className="block text-sm font-medium">
+              About
+            </label>
             <textarea
               name="about"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.about}
-              onChange={handleChange}
+              id="about"
               required
             ></textarea>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">
+            <label htmlFor="skills" className="block text-sm font-medium">
               Skills (comma-separated)
             </label>
             <input
               type="text"
               name="skills"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.skills.join(", ")}
-              onChange={(e) => handleArrayChange(e, "skills")}
+              id="skills"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">
+            <label
+              htmlFor="professionalDetails"
+              className="block text-sm font-medium"
+            >
               Professional Details
             </label>
             <input
               type="text"
               name="professionalDetails"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.professionalDetails}
-              onChange={handleChange}
+              id="professionalDetails"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">
+            <label
+              htmlFor="certifications"
+              className="block text-sm font-medium"
+            >
               Certifications (comma-separated)
             </label>
             <input
               type="text"
               name="certifications"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.certifications.join(", ")}
-              onChange={(e) => handleArrayChange(e, "certifications")}
+              id="certifications"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Experience</label>
+            <label htmlFor="experience" className="block text-sm font-medium">
+              Experience
+            </label>
             <input
               type="text"
               name="experience"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.experience}
-              onChange={handleChange}
+              id="experience"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Education</label>
+            <label htmlFor="education" className="block text-sm font-medium">
+              Education
+            </label>
             <input
               type="text"
               name="education"
               className="mt-1 p-2 w-full border rounded-md"
-              value={userData.education}
-              onChange={handleChange}
+              id="education"
               required
             />
           </div>
-          {error && <p className="text-red-500">Something went wrong: {error.message}</p>}
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-64 text-center mt-4"
-            >
-              Register
-            </button>
+            <input type="submit">
+              <button className="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-64 text-center mt-4">
+                {" "}
+                Register
+              </button>
+            </input>
           </div>
         </form>
         <div className="mt-4 text-center">
@@ -261,4 +275,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default page;

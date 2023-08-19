@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -5,10 +6,10 @@ import Link from "next/link";
 import { AuthContext } from "@/provider/AuthProvider/AuthProvider";
 import Swal from 'sweetalert2';
 
-const Login = () => {
+const page = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const { signIn, user } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const router = useRouter();
 
   const handleSubmit = (e) => {
@@ -70,4 +71,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default page;

@@ -49,109 +49,111 @@ const Navbar = () => {
           <FaWindowClose></FaWindowClose>
         </span>
         <ul>
-          <li className="flex justify-start items-center mt-4 gap-4">
-            <span className="-mx-4 pr-3 md:pr-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-                fill="none"
-              >
-                <path
-                  d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
-                  stroke="#9197B3"
-                  strokeWidth="1.77778"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <Link
-              className={
-                pathname == "/profile"
-                  ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
-                  : " text-black px-4 py-2  font-semibold"
-              }
-              href="/profile"
-            >
-              My Profile
-            </Link>
-          </li>
+          {user ? (
+            <>
+              <li className="flex justify-start items-center mt-4 gap-4">
+                <span className="-mx-4 pr-3 md:pr-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
+                      stroke="#9197B3"
+                      strokeWidth="1.77778"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <Link
+                  className={
+                    pathname == "/profile"
+                      ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
+                      : " text-black px-4 py-2  font-semibold"
+                  }
+                  href="/profile"
+                >
+                  My Profile
+                </Link>
+              </li>
+              <li className="flex justify-start items-center mt-6 gap-4">
+                <span className="-mx-4 pr-3 md:pr-6 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
+                      stroke="#9197B3"
+                      strokeWidth="1.77778"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
 
-          <li className="flex justify-start items-center mt-6 gap-4">
-            <span className="-mx-4 pr-3 md:pr-6 ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-                fill="none"
-              >
-                <path
-                  d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
-                  stroke="#9197B3"
-                  strokeWidth="1.77778"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-
-            <Link
-              className={
-                pathname == "/connection"
-                  ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
-                  : " text-black px-4 py-2 font-semibold"
-              }
-              href="/connection"
-            >
-              My Connections
-            </Link>
-          </li>
-          <li className="flex justify-start items-center mt-6 gap-4">
-            <span className="-mx-4 pr-3 md:pr-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-                fill="none"
-              >
-                <path
-                  d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
-                  stroke="#9197B3"
-                  strokeWidth="1.77778"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <Link
-              className={
-                pathname == "/"
-                  ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
-                  : " text-black px-4 py-2  font-semibold"
-              }
-              href="/"
-            >
-              Home{" "}
-            </Link>
-          </li>
-          <li className="mx-auto ps-4 mt-44 md:mt-80">
-            {user ? (
+                <Link
+                  className={
+                    pathname == "/connection"
+                      ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
+                      : " text-black px-4 py-2 font-semibold"
+                  }
+                  href="/connection"
+                >
+                  My Connections
+                </Link>
+              </li>
+              <li className="flex justify-start items-center mt-6 gap-4">
+                <span className="-mx-4 pr-3 md:pr-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M6.11108 10.7778L9.66664 7.22223L6.11108 3.66667"
+                      stroke="#9197B3"
+                      strokeWidth="1.77778"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <Link
+                  className={
+                    pathname == "/"
+                      ? "borders  px-4 py-2 rounded-md text-black  font-semibold"
+                      : " text-black px-4 py-2  font-semibold"
+                  }
+                  href="/"
+                >
+                  Home{" "}
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="mx-auto ps-4 mt-44 md:mt-80">
               <button
                 className="btn font-bold btn-ghost"
                 onClick={handleLogOut}
               >
                 Logout
               </button>
-            ) : (
+
               <Link className="btn font-bold btn-ghost" href={"/login"}>
                 Log In
               </Link>
-            )}
-          </li>
+            </li>
+          )}
         </ul>
       </div>
       <div className="navbar  bg-white border border-l-0">
@@ -185,27 +187,27 @@ const Navbar = () => {
             </svg>
           </div>
           <div>
-          {user ? (
-          <div className="flex gap-3 px-4 justify-center py-2 rounded-md text-black items-center  borders">
-            <div>
-              <Image
-                src={user.photoURL}
-                height={200}
-                width={200}
-                alt="Profile"
-                className="w-8 h-8 rounded-md"
-              />
-            </div>
-            <div className="hidden md:flex flex-col">
-              <h1 className="text-sm">Welcome Back</h1>
-              <p className="font-semibold">{user.displayName}</p>
-            </div>
-          </div>
-        ) : (
-          <Link className="btn font-bold btn-ghost" href={"/login"}>
-            LogIn
-          </Link>
-        )}
+            {user ? (
+              <div className="flex gap-3 px-4 justify-center py-2 rounded-md text-black items-center  borders">
+                <div>
+                  <Image
+                    src={user.photoURL}
+                    height={200}
+                    width={200}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-md"
+                  />
+                </div>
+                <div className="hidden md:flex flex-col">
+                  <h1 className="text-sm">Welcome Back</h1>
+                  <p className="font-semibold">{user.displayName}</p>
+                </div>
+              </div>
+            ) : (
+              <Link className="btn font-bold btn-ghost" href={"/login"}>
+                LogIn
+              </Link>
+            )}
           </div>
         </div>
       </div>
