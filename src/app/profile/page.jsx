@@ -4,8 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { AuthContext } from "@/provider/AuthProvider/AuthProvider";
 import Modal from "react-modal";
-import Swal from "sweetalert2";
-import axios from "axios";
+import swal from "sweetalert";
 
 const ProfilePage = () => {
   const [items, setItems] = useState([]);
@@ -30,7 +29,6 @@ const ProfilePage = () => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
     const [editedData, setEditedData] = useState({});
-console.log(editedData);
 
   const openEditPopup = (data) => {
     setIsEditOpen(true);
@@ -42,42 +40,44 @@ console.log(editedData);
     setEditedData({});
   };
 
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`/api/users?email=${userEmail}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          newData: newData,
-        }),
+  const handleEditSubmit = (userEmail, updatedData) => {
+    fetch(`/api/users?email=${userEmail}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          swal("Success!", "Toy updated successfully.", "success");
+          
+          // Update the local state or fetch the updated data from the server
+          setEditedData((prevEditedData) => {
+            const updatedDatas = prevEditedData.map((data) => {
+              if (data._id === id) {
+                return {
+                  ...data,
+                  ...updatedData,
+                };
+              }
+              return data;
+            });
+            return  updatedDatas;
+          });
+        } else {
+          swal("Error!", "Failed to update the toy.", "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating toy:", error);
+        swal("Error!", "Failed to update the toy.", "error");
       });
-        console.log(newData);
-      if (response.ok) {
-        const responseData = await response.json();
-        setMessage(responseData.message);
-
-        // Show success alert
-        Swal.fire({
-          icon: "success",
-          title: "Update Successful",
-          text: responseData.message,
-        }).then(() => {
-          // Perform any necessary cleanup or actions after success
-        });
-      } else {
-        console.error("Failed to update user data");
-      }
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
   };
-
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 ">
       <div className="profile-bg mx-auto  h-40 md:h-56 w-96 md:w-3/5">
         <h1 className="text-white text-xl md:text-3xl font-bold p-8 ps-8 md:ps-36">
           My Profile

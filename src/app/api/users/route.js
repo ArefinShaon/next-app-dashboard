@@ -23,27 +23,32 @@ export const GET = async (request) => {
   }
 };
 
-export const PATCH = async (request) => {
-  const { email, newData } = await request.json();
+
+export default async function handler(req, res) {
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
+
+  const { email, updatedData } = req.body;
 
   try {
     await connect();
-    const updatedUser = await User.findOneAndUpdate({ email }, newData, {
+
+    const updatedUser = await User.findOneAndUpdate({ email }, updatedData, {
       new: true,
     });
 
     if (!updatedUser) {
-      return new NextResponse("User not found", { status: 404 });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    return new NextResponse(
-      JSON.stringify({
-        message: "Profile updated successfully",
-        user: updatedUser,
-      }),
-      { status: 200 }
-    );
+    return res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: updatedUser,
+    });
   } catch (error) {
-    return new NextResponse("Internal Server Error", { status: 500 });
+    console.error('Error updating user data:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+}
