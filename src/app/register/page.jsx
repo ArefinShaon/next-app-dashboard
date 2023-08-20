@@ -1,44 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext,  } from "react";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert2";
 import { AuthContext } from "@/provider/AuthProvider/AuthProvider";
 
 const page = () => {
   const router = useRouter();
-  const { createUser } = useContext(AuthContext);
+  const { createUser,updateUserProfile } = useContext(AuthContext);
 
-  // const [userData, setUserData] = useState({
-  //   name: "",
-  //   email: "",
-  //   password:"",
-  //   profilePicture: "",
-  //   phoneNumber: "",
-  //   about: "",
-  //   skills: [],
-  //   professionalDetails: "",
-  //   certifications: [],
-  //   experience: "",
-  //   education: "",
-  // });
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setUserData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const handleArrayChange = (event, field) => {
-  //   const { value } = event.target;
-  //   setUserData((prevData) => ({
-  //     ...prevData,
-  //     [field]: value.split(",").map((item) => item.trim()),
-  //   }));
-  // };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -79,10 +51,10 @@ const page = () => {
       console.log(createdUser);
 
       // Update user profile using updateUserProfile function
-      // await updateUserProfile({
-      //   displayName: name,
-      //   photoURL: profilePicture,
-      // });
+      await updateUserProfile({
+        displayName: name,
+        photoURL: profilePicture,
+      });
 
       const res = await fetch("/api/register", {
         method: "POST",
@@ -99,11 +71,11 @@ const page = () => {
           text: "Successfully create an account",
         });
 
-        form.reset();
+        event.target.reset();
         router.push("/login");
       }
     } catch (err) {
-      setError(err);
+      
       console.log(err);
     }
   };
@@ -256,12 +228,12 @@ const page = () => {
             />
           </div>
           <div className="flex justify-center">
-            <input type="submit">
-              <button className="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-64 text-center mt-4">
-                {" "}
-                Register
-              </button>
-            </input>
+            <button
+              type="submit"
+              className="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-64 text-center mt-4"
+            >
+              Register
+            </button>
           </div>
         </form>
         <div className="mt-4 text-center">
@@ -276,3 +248,5 @@ const page = () => {
 };
 
 export default page;
+
+

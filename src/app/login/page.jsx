@@ -13,7 +13,7 @@ const page = () => {
   const router = useRouter();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the form from submitting traditionally
+    e.preventDefault();
     const form = e.target;
     const email = form.elements.email.value;
     const password = form.elements.password.value;
@@ -72,3 +72,5 @@ const page = () => {
 };
 
 export default page;
+
+

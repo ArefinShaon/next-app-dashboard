@@ -4,8 +4,8 @@ import {  useState, useEffect, useContext } from "react";
 import React from "react";
 import Image from "next/image";
 import { AuthContext } from "@/provider/AuthProvider/AuthProvider";
-// import Modal from "react-modal";
-// import swal from "sweetalert";
+import Modal from "react-modal";
+import swal from "sweetalert";
 
 const page = () => {
   const [items, setItems] = useState([]);
@@ -18,66 +18,66 @@ const page = () => {
       fetch(`/api/register?email=${userEmail}`)
         .then((response) => response.json())
         .then((fetchedItems) => {
-          setItems(fetchedItems);   // Update component state with fetched data
-          setIsLoading(false);      // Update component state to indicate loading is complete
+          setItems(fetchedItems);
+          setIsLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching user-specific items:", error);  // Log the error
-          setIsLoading(false);      // Update component state even in case of error
+          console.error("Error fetching user-specific items:", error);
+          setIsLoading(false);
         });
     }
   }, [userEmail]);
   
 
-  // const [isEditOpen, setIsEditOpen] = useState(false);
-  //   const [editedData, setEditedData] = useState({});
+  const [isEditOpen, setIsEditOpen] = useState(false);
+    const [editedData, setEditedData] = useState({});
 
-  // const openEditPopup = (data) => {
-  //   setIsEditOpen(true);
-  //   setEditedData(data);
-  // };
+  const openEditPopup = (data) => {
+    setIsEditOpen(true);
+    setEditedData(data);
+  };
 
-  // const closeEditPopup = () => {
-  //   setIsEditOpen(false);
-  //   setEditedData({});
-  // };
+  const closeEditPopup = () => {
+    setIsEditOpen(false);
+    setEditedData({});
+  };
 
-  // const handleEditSubmit = (userEmail, updatedData) => {
-  //   fetch(`/api/register?email=${userEmail}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(updatedData),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       if (data.success) {
-  //         swal("Success!", "Toy updated successfully.", "success");
+  const handleEditSubmit = (userEmail, updatedData) => {
+    fetch(`/api/register?email=${userEmail}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          swal("Success!", "Toy updated successfully.", "success");
           
-  //         // Update the local state or fetch the updated data from the server
-  //         setEditedData((prevEditedData) => {
-  //           const updatedDatas = prevEditedData.map((data) => {
-  //             if (data._id === id) {
-  //               return {
-  //                 ...data,
-  //                 ...updatedData,
-  //               };
-  //             }
-  //             return data;
-  //           });
-  //           return  updatedDatas;
-  //         });
-  //       } else {
-  //         swal("Error!", "Failed to update the toy.", "error");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating toy:", error);
-  //       swal("Error!", "Failed to update the toy.", "error");
-  //     });
-  // };
+          // Update the local state or fetch the updated data from the server
+          setEditedData((prevEditedData) => {
+            const updatedDatas = prevEditedData.map((data) => {
+              if (data._id === id) {
+                return {
+                  ...data,
+                  ...updatedData,
+                };
+              }
+              return data;
+            });
+            return  updatedDatas;
+          });
+        } else {
+          swal("Error!", "Failed to update the toy.", "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating toy:", error);
+        swal("Error!", "Failed to update the toy.", "error");
+      });
+  };
   return (
     <div className="bg-gray-100 ">
       <div className="profile-bg mx-auto  h-40 md:h-56 w-96 md:w-3/5">
@@ -90,14 +90,14 @@ const page = () => {
             className="border bg-white mt-6 md:mt-24 mx-auto rounded-lg w-5/6 p-4"
           >
             <div className="text-right">
-              {/* <p
+              <p
                 onClick={() => openEditPopup(item)}
                 className=" btn bg-blue-600 hover:bg-blue-800 cursor-pointer"
               >
                 Edit
-              </p> */}
+              </p>
             </div>
-            {/* <div>
+            <div>
               <Modal
                 isOpen={isEditOpen}
                 onRequestClose={closeEditPopup}
@@ -293,7 +293,7 @@ const page = () => {
                   </div>
                 </form>
               </Modal>
-            </div> */}
+            </div>
             <div className="flex justify-between flex-col md:flex-row">
               <div className="md:w-3/5">
                 <div className="flex items-center gap-8">
@@ -356,3 +356,4 @@ const page = () => {
 };
 
 export default page;
+

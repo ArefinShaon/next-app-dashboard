@@ -103,7 +103,6 @@ const page = () => {
       return user;
     });
 
-    // Save updated users to local storage
     localStorage.setItem("users", JSON.stringify(updatedUsers));
 
     setUsers(updatedUsers);
@@ -181,3 +180,4 @@ const page = () => {
 };
 
 export default page;
+
