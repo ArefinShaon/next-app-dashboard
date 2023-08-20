@@ -66,24 +66,3 @@ export const POST = async (request) => {
   }
 };
 
-export const PUT = async (request) => {
-  const { email } = request.query;
-
-  const updateData = await request.json();
-
-  try {
-    await connect();
-
-    const updatedUser = await User.findOneAndUpdate({ email }, updateData, {
-      new: true, 
-    });
-
-    if (updatedUser) {
-      return new NextResponse(JSON.stringify(updatedUser), { status: 200 });
-    } else {
-      return new NextResponse("User not found", { status: 404 });
-    }
-  } catch (err) {
-    return new NextResponse("Database Error", { status: 500 });
-  }
-};

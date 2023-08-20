@@ -42,42 +42,7 @@ const page = () => {
     setEditedData({});
   };
 
-  const handleEditSubmit = (userEmail, updatedData) => {
-    fetch(`/api/register?email=${userEmail}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          swal("Success!", "Toy updated successfully.", "success");
-          
-          // Update the local state or fetch the updated data from the server
-          setEditedData((prevEditedData) => {
-            const updatedDatas = prevEditedData.map((data) => {
-              if (data._id === id) {
-                return {
-                  ...data,
-                  ...updatedData,
-                };
-              }
-              return data;
-            });
-            return  updatedDatas;
-          });
-        } else {
-          swal("Error!", "Failed to update the toy.", "error");
-        }
-      })
-      .catch((error) => {
-        console.error("Error updating toy:", error);
-        swal("Error!", "Failed to update the toy.", "error");
-      });
-  };
+ 
   return (
     <div className="bg-gray-100 ">
       <div className="profile-bg mx-auto  h-40 md:h-56 w-96 md:w-3/5">
@@ -113,7 +78,7 @@ const page = () => {
                 <h1 className="text-center text-xl font-semibold">
                   Edit Profile Information
                 </h1>
-                <form onSubmit={handleEditSubmit}>
+                <form >
                   <div className="flex flex-col justify-center items-center mx-auto gap-4 md:gap-40 md:flex-row-reverse ">
                     <div>
                       <div className="mt-2 md:mt-3">
